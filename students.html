@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Mahasiswa - famerogram</title>
+    <link rel="icon" type="image/svg+xml" href="Copilot_20250715_152404.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Reset and Base Styles */
+        :root {
+            --primary-start: #8296eb;
+            --primary-end: #70647c;
+            --text-light: #ffffff;
+            --text-dark: #374151;
+            --bg-light: #f8fafc;
+            --border-color: #e5e7eb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation Styles */
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-start) 0%, var(--primary-end) 100%);
+            padding: 1rem 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo h2 {
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+        }
+
+        .bar {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px auto;
+            -webkit-transition: all 0.3s ease-in-out;
+            transition: all 0.3s ease-in-out;
+            background-color: white;
+        }
+        
+        /* Hamburger Icon for CSS */
+        .hamburger i {
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-start) 0%, var(--primary-end) 100%);
+            padding: 140px 0 60px;
+            color: var(--text-light);
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        /* Section & Search/Filter */
+        section { padding: 40px 0; }
+        .students-section { padding-top: 20px; }
+        .search-filter { background: white; padding: 30px 0; border-bottom: 1px solid var(--border-color); }
+        .search-container { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; margin-bottom: 1rem; }
+        .search-box { position: relative; flex: 1; min-width: 280px; }
+        .search-box input, .filter-box select { width: 100%; padding: 12px 15px; font-size: 1rem; border-radius: 25px; border: 2px solid var(--border-color); font-family: 'Poppins', sans-serif;}
+        .search-box i { left: 15px; top: 50%; transform: translateY(-50%); position: absolute; color: #6b7280; }
+        .search-box input { padding-left: 45px;}
+        .results-info { color: #6b7280; font-size: 0.9rem; margin-top: 0.5rem; }
+
+        /* Table Styles */
+        .students-table-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .students-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95em;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.07);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .students-table thead tr {
+            background: linear-gradient(135deg, var(--primary-start) 0%, var(--primary-end) 100%);
+            color: var(--text-light);
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .students-table th, .students-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .students-table tbody tr {
+            background-color: white;
+        }
+        .students-table tbody tr:nth-of-type(even) {
+            background-color: var(--bg-light);
+        }
+        .students-table tbody tr:hover {
+            background-color: #eef2ff;
+            cursor: pointer;
+        }
+        .students-table tbody tr:last-of-type {
+            border-bottom: 2px solid var(--primary-start);
+        }
+        
+        /* No Results */
+        .no-results { text-align: center; padding: 3rem 1rem; color: #6b7280; }
+        
+        /* Footer Styles */
+        .footer { background: #1f2937; color: white; padding: 60px 0 20px; }
+        .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-bottom: 2rem; }
+        .footer-section h3, .footer-section h4 { font-weight: 600; margin-bottom: 1rem; }
+        .footer-section h3 { font-size: 1.5rem; color: #fbbf24; }
+        .footer-section h4 { font-size: 1.2rem; }
+        .footer-section p, .footer-section ul li a { color: #d1d5db; text-decoration: none; }
+        .footer-section ul { list-style: none; padding: 0; line-height: 2; }
+        .footer-section ul li a:hover { color: #fbbf24; }
+        .footer .social-links { display: flex; gap: 1rem; }
+        .footer .social-links a { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: #374151; border-radius: 50%; color: white; transition: all 0.3s ease; }
+        .footer .social-links a:hover { background: #fbbf24; transform: translateY(-2px); }
+        .footer-bottom { border-top: 1px solid #374151; padding-top: 2rem; text-align: center; color: #9ca3af; }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .hamburger { display: block; }
+            .nav-menu { position: fixed; left: -100%; top: 70px; gap: 0; flex-direction: column; background: linear-gradient(135deg, var(--primary-start) 0%, var(--primary-end) 100%); width: 100%; text-align: center; transition: 0.3s; }
+            .nav-menu.active { left: 0; }
+            .nav-item { width: 100%; }
+            .nav-link { padding: 1.5rem; display: block; border-bottom: 1px solid rgba(255,255,255,0.1); }
+            
+            .page-header h1 { font-size: 2rem; }
+            .search-container { flex-direction: column; align-items: stretch; }
+            
+            .students-table { box-shadow: none; border-radius: 0; background: transparent; }
+            .students-table thead { display: none; }
+            .students-table tr { display: block; margin-bottom: 1rem; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border: 1px solid var(--border-color); overflow: hidden; background-color: white; }
+            .students-table td { display: block; text-align: right; padding-left: 50%; position: relative; border-bottom: 1px solid var(--border-color); }
+            .students-table tr:nth-of-type(even) { background-color: white; }
+            .students-table td:last-child { border-bottom: 0; }
+            .students-table td::before { content: attr(data-label); position: absolute; left: 15px; width: calc(50% - 25px); text-align: left; font-weight: 600; color: var(--primary-start); }
+            
+            .footer-content { text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    
+    <audio id="background-music" src="You'll Be in My Heart.mp3" loop></audio>
+
+    <nav class="navbar">
+        <div class="container nav-container">
+            <div class="nav-logo">
+                <h2>Famerogram</h2>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link">Beranda</a></li>
+                <li class="nav-item"><a href="students.html" class="nav-link active">Daftar Mahasiswa</a></li>
+                <li class="nav-item"><a href="gallery.html" class="nav-link">Galeri</a></li>
+                <li class="nav-item"><a href="about.html" class="nav-link">Tentang</a></li>
+                <li class="nav-item"><a href="https://www.instagram.com/halloazkha/" target="_blank" class="nav-link">Admin</a></li>
+            </ul>
+            <div class="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <div class="container">
+            <h1><i class="fas fa-users"></i> Daftar Mahasiswa 22A5</h1>
+            <p>Temukan teman-teman sekelas dari berbagai daerah di seluruh Indonesia.</p>
+        </div>
+    </header>
+
+    <section class="search-filter">
+        <div class="container">
+            <div class="search-container">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Cari nama mahasiswa atau asal daerah...">
+                </div>
+                <div class="filter-box">
+                    <select id="provinceFilter">
+                        <option value="">Semua Provinsi</option>
+                        </select>
+                </div>
+            </div>
+            <div class="results-info">
+                <span id="resultsCount"></span>
+            </div>
+        </div>
+    </section>
+
+    <section class="students-section">
+        <div class="container">
+            <div class="students-table-container">
+                <table class="students-table">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Nama Lengkap</th>
+                            <th>Asal Kota</th>
+                            <th>Provinsi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="studentsTableBody"></tbody>
+                </table>
+            </div>
+            <div id="noResults" class="no-results" style="display: none;">
+                <h3><i class="fas fa-search"></i> Hasil tidak ditemukan</h3>
+                <p>Silakan coba kata kunci atau filter yang berbeda.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section"><h3>Famerogram</h3><p>Website resmi angkatan RMIK 22A5 terdiri 44 Mahasiswa dari berbagai daerah di Indonesia.</p></div>
+                <div class="footer-section"><h4>Menu</h4><ul><li><a href="index.html">Beranda</a></li><li><a href="students.html">Daftar Mahasiswa</a></li><li><a href="gallery.html">Galeri</a></li><li><a href="about.html">Tentang</a></li></ul></div>
+                <div class="footer-section"><h4>Kontak</h4><p><i class="fas fa-envelope"></i> @gmail.com</p><p><i class="fas fa-phone"></i> +62 8580 3689 277</p></div>
+                <div class="footer-section"><h4>Sosial Media</h4><div class="social-links"><a href="https://www.instagram.com/fna_naufal_/" target="_blank"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-youtube"></i></a></div></div>
+            </div>
+            <div class="footer-bottom"><p>© 2025 RMIK 22A5. Dibuat dengan ❤️ untuk mengenang masa-masa indah bersama. by @fna_naufal_</p></div>
+        </div>
+    </footer>
+
+    <script>
+    // --- DATA SISWA ---
+    const studentsData = [
+        {id: 1, name: 'GISA MAKHRUMI FI\'LAL KHOIROTI', location: 'Banjarnegara', province: 'Jawa Tengah'},
+        {id: 2, name: 'AGNES AYU PRATIWI', location: 'Boyolali', province: 'Jawa Tengah'},
+        {id: 3, name: 'ALLAMANDA RAHARDIAN PUTRI', location: 'Karanganyar', province: 'Jawa Tengah'},
+        {id: 4, name: 'AMELIA SALSHABILA', location: 'Wonogiri', province: 'Jawa Tengah'},
+        {id: 5, name: 'ANDREAS SYAFIQ BALAPRADHANA', location: 'Banjarnegara', province: 'Jawa Tengah'},
+        {id: 6, name: 'ANISA DWINOVIANTI', location: 'Wonogiri', province: 'Jawa Tengah'},
+        {id: 7, name: 'APRILIA RAHMAWATI', location: 'Sintang', province: 'kalimantan Barat'},
+        {id: 8, name: 'AXCY SALSA DZANUARVY', location: 'Sukoharjo', province: 'Jawa Tengah'},
+        {id: 9, name: 'CHERLY INTAN ARVENUS', location: 'Boyolali', province: 'Jawa Tengah'},
+        {id: 10, name: 'DANISHA TRIYAS PUANAGARI', location: 'Wonogiri', province: 'Jawa Tengah'},
+        {id: 11, name: 'DEVINA TRIWIK NUR ROHMAH', location: 'Boyolali', province: 'Jawa Tengah'},
+        {id: 12, name: 'DIAH FITRIA AYUNINGTIAS', location: 'Klaten', province: 'Jawa Tengah'},
+        {id: 13, name: 'DIYA KARTIKA PUTRI', location: 'Sukoharjo', province: 'Jawa Tengah'},
+        {id: 14, name: 'ELSABELA PUTRI ADITAMA', location: 'Klaten', province: 'Jawa Tengah'},
+        {id: 15, name: 'FADILA RAHMANIA', location: 'Karanganyar', province: 'Jawa Tengah'},
+        {id: 16, name: 'FAWWAZ NAUFAL AR-RIDHO', location: 'Sragen', province: 'Jawa Tengah'},
+        {id: 17, name: 'HANIFAH WULANDARI', location: 'Klaten', province: 'Jawa Tengah'},
+        {id: 18, name: 'IKA LUTFIANA', location: 'Madiun', province: 'Jawa Timur'},
+        {id: 19, name: 'ILHAMUR RAHMAN', location: 'Klaten', province: 'Jawa Tengah'},
+        {id: 20, name: 'ISNAINI MIFTAKHUL JANNAH', location: 'Karanganyar', province: 'Jawa Tengah'},
+        {id: 21, name: 'KHOLIFAH ANNAS RAHMATIKA', location: 'Karanganyar', province: 'Jawa Tengah'},
+        {id: 22, name: 'LAMBANG PRASETYO WIBOWO', location: 'Klaten', province: 'Jawa Tengah'},
+        {id: 23, name: 'LUTFIA NURKHOMSA FATICHAH', location: 'Boyolali', province: 'Jawa Tengah'},
+        {id: 24, name: 'MEFITA ANISA SAFITRI', location: 'Trenggalek', province: 'Jawa Timur'},
+        {id: 25, name: 'MU\'AMMAR ROSYID FATHONI', location: 'Sragen', province: 'Jawa Tengah'},
+        {id: 26, name: 'MUSPITA PRISDAYANTI', location: 'Wonogiri', province: 'Jawa Tengah'},
+        {id: 27, name: 'MUTIA DEWI PRAMESTI', location: 'Karanganyar', province: 'Jawa Tengah'},
+        {id: 28, name: 'NABILA JUL MAIDA CALLES', location: 'Sukoharjo', province: 'Jawa Tengah'},
+        {id: 29, name: 'NANDA THALIA SUKMASARI', location: 'Sukoharjo', province: 'Jawa Tengah'},
+        {id: 30, name: 'NUR AISYAH RETNANINGSIH', location: 'Wonogiri', province: 'Jawa Tengah'},
+        {id: 31, name: 'PUPUT RAHMAWATI', location: 'Karanganyar', province: 'Jawa Tengah'},
+        {id: 32, name: 'RAHMADITA NUR HALIMAH', location: 'Sukoharjo', province: 'Jawa Tengah'},
+        {id: 33, name: 'RANGGA FIRMANSYAH SAPUTRA PURWANTO', location: 'Semarang', province: 'Jawa Tengah'},
+        {id: 34, name: 'RINI MAYSYARROH', location: 'klaten', province: 'Jawa Tengah'},
+        {id: 35, name: 'ROSANTI EUIS KARTIKA', location: 'Sukoharjo', province: 'Jawa Tengah'},
+        {id: 36, name: 'SELLA YULIA SARI', location: 'Klaten', province: 'Jawa Tengah'},
+        {id: 37, name: 'SHALSHABILLA AYU NUGRAHENI', location: 'Sukoharjo', province: 'Jawa Tengah'},
+        {id: 38, name: 'SOFIA AYUNI EKAPUTRI', location: 'Boyolali', province: 'Jawa Tengah'},
+        {id: 39, name: 'TINIA SUKMANINGRUM', location: 'Sukoharjo', province: 'Jawa Tengah'},
+        {id: 40, name: 'YASMEEN AGUSTIA SAPUTRO', location: 'Sragen', province: 'Jawa Tengah'},
+        {id: 41, name: 'YUSNAINNISA AMRIN NURRAHMI', location: 'Sukoharjo', province: 'Jawa Tengah'},
+        {id: 42, name: 'HINGGIL ARIFADZLI', location: 'Karanganyar', province: 'Jawa Tengah'},
+        {id: 43, name: 'ITA RUSVITA SARI', location: 'Sukoharjo', province: 'Jawa Tengah'},
+        {id: 44, name: 'REZA MUFTAKUL JANAH', location: 'Sragen', province: 'Jawa Tengah'}
+    ];
+    
+    // --- SCRIPT HALAMAN ---
+    document.addEventListener('DOMContentLoaded', function() {
+        // Student Table Logic
+        const searchInput = document.getElementById('searchInput');
+        const provinceFilter = document.getElementById('provinceFilter');
+        const tableBody = document.getElementById('studentsTableBody');
+        const tableContainer = document.querySelector('.students-table-container');
+        const noResults = document.getElementById('noResults');
+        const resultsCount = document.getElementById('resultsCount');
+
+        // Populate province filter dynamically
+        const provinces = [...new Set(studentsData.map(s => s.province))].sort();
+        provinces.forEach(province => {
+            const option = document.createElement('option');
+            option.value = province;
+            option.textContent = province;
+            provinceFilter.appendChild(option);
+        });
+
+        const displayStudents = (students) => {
+            if (students.length === 0) {
+                tableContainer.style.display = 'none';
+                noResults.style.display = 'block';
+            } else {
+                tableContainer.style.display = 'block';
+                noResults.style.display = 'none';
+                tableBody.innerHTML = students.map(student => `
+                    <tr onclick="window.location='profile.html?id=${student.id}'">
+                        <td data-label="No.">${student.id}</td>
+                        <td data-label="Nama">${student.name}</td>
+                        <td data-label="Asal">${student.location}</td>
+                        <td data-label="Provinsi">${student.province}</td>
+                    </tr>
+                `).join('');
+            }
+            resultsCount.textContent = `Menampilkan ${students.length} dari ${studentsData.length} mahasiswa.`;
+        };
+
+        const filterStudents = () => {
+            const searchTerm = searchInput.value.toLowerCase();
+            const selectedProvince = provinceFilter.value;
+
+            const filteredStudents = studentsData.filter(student => {
+                const matchesSearch = student.name.toLowerCase().includes(searchTerm) ||
+                                        student.location.toLowerCase().includes(searchTerm);
+                const matchesProvince = !selectedProvince || student.province === selectedProvince;
+                return matchesSearch && matchesProvince;
+            });
+            displayStudents(filteredStudents);
+        };
+
+        searchInput.addEventListener('input', filterStudents);
+        provinceFilter.addEventListener('change', filterStudents);
+
+        // Initial display
+        displayStudents(studentsData);
+    });
+    </script>
+    
+    <script src="music-player.js"></script>
+
+</body>
+</html>

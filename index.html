@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Famerogram</title>
+    <link rel="icon" type="image/svg+xml" href="Copilot_20250715_152404.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* PERUBAHAN UTAMA: Body jadi target animasi */
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: #d1d5db;
+        }
+        
+        /* Gaya untuk Tombol Pemutar Musik */
+        .music-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 9999;
+            flex-direction: column; color: white; text-align: center; padding: 20px;
+        }
+
+        #play-music-btn {
+            padding: 15px 30px; font-size: 1.2rem; font-weight: 600; color: #333;
+            background: #fbbf24; border: none; border-radius: 50px; cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(251, 191, 36, 0.4);
+        }
+        
+        #play-music-btn:hover {
+            transform: translateY(-3px);
+            background: #f59e0b;
+        }
+
+        .music-overlay h3 { font-size: 2rem; margin-bottom: 1rem; }
+        .music-overlay p { font-size: 1.1rem; margin-bottom: 2rem; max-width: 400px; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        /* --- INI DIA PERBAIKANNYA, LE! --- */
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        /* ------------------------------------ */
+
+        /* Navigation Styles */
+        .navbar {
+            background: rgba(0,0,0,0.1);
+            padding: 1rem 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000; 
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: transparent; 
+            padding: 210px 0 80px;
+            color: white;
+            overflow: hidden;
+        }
+
+        /* Features Section (Punya background sendiri biar kontras) */
+        .features { 
+            background: #f8fafc; 
+            color: #333; /* <-- Balikin warna teks jadi gelap untuk section ini */
+        }
+        .section-title { color: #1f2937; }
+        .feature-card h3 { color: #1f2937; }
+        .feature-card p { color: #6b7280; }
+
+        /* --- Sisa CSS dari kode asli kamu, tidak diubah --- */
+        .nav-logo h2{color:#fff;font-weight:600}.nav-menu{display:flex;list-style:none;gap:2rem;align-items:center}.nav-link{color:#fff;text-decoration:none;font-weight:500;padding:.5rem 1rem;border-radius:25px;transition:background .3s ease}.nav-link:active,.nav-link:hover{background:rgba(255,255,255,.2)}.hamburger{display:none;cursor:pointer}.hamburger i{font-size:1.5rem;color:#fff}.hero-container{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}.hero-title{font-size:3.5rem;font-weight:700;margin-bottom:1rem;line-height:1.2}.hero-subtitle{font-size:1.2rem;margin-bottom:2rem;opacity:.9}.hero-stats{display:flex;gap:2rem;margin-bottom:2rem;flex-wrap:wrap}.stat-item{text-align:center}.stat-item h3{font-size:2.5rem;font-weight:700;color:#fbbf24}.stat-item p{font-size:.9rem;opacity:.8}.hero-buttons{display:flex;gap:1rem;flex-wrap:wrap}.btn{padding:12px 24px;border-radius:25px;text-decoration:none;font-weight:600;transition:all .3s ease;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:8px}.btn-primary{background:#fbbf24;color:#1f2937}.btn-primary:hover{background:#f59e0b;transform:translateY(-2px);box-shadow:0 10px 25px rgba(251,191,36,.3)}.btn-secondary{background:transparent;color:#fff;border:2px solid #fff}.btn-secondary:hover{background:#fff;color:#667eea;transform:translateY(-2px)}.hero-image{position:relative;height:400px}.floating-cards{position:relative;height:100%}.card{position:absolute;background:rgba(255,255,255,.1);backdrop-filter:blur(10px);border-radius:20px;padding:2rem;text-align:center;border:1px solid rgba(255,255,255,.2);animation:float 6s ease-in-out infinite}.card-1{top:20%;left:10%;animation-delay:0s}.card-2{top:50%;right:20%;animation-delay:2s}.card-3{bottom:20%;left:30%;animation-delay:4s}.card i{font-size:2rem;color:#fbbf24;margin-bottom:1rem}.card h4{font-size:1.1rem;font-weight:600}@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}section{padding:80px 0}.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2rem}.feature-card{background:#fff;padding:2rem;border-radius:20px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.1);transition:all .3s ease;border:1px solid #e5e7eb}.feature-card:hover{transform:translateY(-10px);box-shadow:0 20px 40px rgba(0,0,0,.15)}.feature-icon{width:80px;height:80px;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem}.feature-icon i{font-size:2rem;color:#fff}
+        .footer{background:#1f2937;color:#fff;padding:60px 0 20px}.footer-content{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2rem;margin-bottom:2rem}.footer-section h3{font-size:1.5rem;font-weight:600;margin-bottom:1rem;color:#fbbf24}.footer-section p,.footer-section ul li a{color:#d1d5db}.footer-section ul{list-style:none;padding:0}.footer-section ul li a{text-decoration:none;transition:color .3s}.footer-section ul li a:hover{color:#fbbf24}.footer-bottom{border-top:1px solid #374151;padding-top:2rem;text-align:center;color:#9ca3af}
+        @media (max-width:768px){.nav-menu{position:absolute;left:-100%;top:70px;flex-direction:column;gap:0;width:100%;text-align:center;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);transition:all .3s ease;box-shadow:0 10px 20px rgba(0,0,0,.1)}.nav-menu.active{left:0}.nav-item{width:100%}.nav-link{display:block;padding:1.5rem;border-radius:0;border-bottom:1px solid rgba(255,255,255,.1)}.hamburger{display:block}.hero{padding-top:100px}.hero-container{grid-template-columns:1fr;text-align:center}.hero-stats,.hero-buttons{justify-content:center}.hero-image{margin-top:2rem}}
+    </style>
+</head>
+<body>
+
+    <div class="music-overlay" id="music-overlay">
+        <h3>Selamat Datang!</h3>
+        <p>Klik tombol di bawah untuk masuk ke website dan memutar musik latar.</p>
+        <button id="play-music-btn">
+            <i class="fas fa-play"></i> Masuk & Putar Musik
+        </button>
+    </div>
+
+    <audio id="background-music" src="You'll Be in My Heart.mp3" loop></audio>
+
+    <nav class="navbar">
+        <div class="container nav-container">
+            <div class="nav-logo">
+                <h2>famerogram</h2>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link active">Beranda</a></li>
+                <li class="nav-item"><a href="students.html" class="nav-link">Daftar Mahasiswa</a></li>
+                <li class="nav-item"><a href="gallery.html" class="nav-link">Galeri</a></li>
+                <li class="nav-item"><a href="about.html" class="nav-link">Tentang</a></li>
+                <li class="nav-item"><a href="https://www.instagram.com/fna_naufal_/" class="nav-link" target="_blank">Admin</a></li>
+            </ul>
+            <div class="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">Selamat Datang Di Website RMIK 22A5</h1>
+                <p class="hero-subtitle">Website Resmi RMIK 22A5 (2022-2025) UNIVERSITAS DUTA BANGSA SURAKARTA.</p>
+                <div class="hero-stats">
+                    <div class="stat-item"><h3>44</h3><p>Mahasiswa</p></div>
+                    <div class="stat-item"><h3>3</h3><p>Provinsi</p></div>
+                </div>
+                <div class="hero-buttons">
+                    <a href="students.html" class="btn btn-primary">Lihat Daftar Mahasiswa</a>
+                    <a href="gallery.html" class="btn btn-secondary">Galeri Kenangan</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="floating-cards">
+                    <div class="card card-1"><i class="fas fa-users"></i><h4>Kebersamaan</h4></div>
+                    <div class="card card-2"><i class="fas fa-trophy"></i><h4>Prestasi</h4></div>
+                    <div class="card card-3"><i class="fas fa-heart"></i><h4>Persahabatan</h4></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">Fitur Website</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-search"></i></div>
+                    <h3>Pencarian Mahasiswa</h3>
+                    <p>Cari mahasiswa berdasarkan nama atau asal daerah dengan mudah</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <h3>Filter Lokasi</h3>
+                    <p>Filter mahasiswa berdasarkan provinsi asal untuk melihat sebaran geografis</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-user-circle"></i></div>
+                    <h3>Profil Lengkap</h3>
+                    <p>Lihat profil lengkap setiap mahasiswa dengan informasi detail</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-images"></i></div>
+                    <h3>Galeri Foto</h3>
+                    <p>Koleksi foto dan kenangan indah selama masa kuliah</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer class="footer">
+       <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Famerogram</h3>
+                    <p>Website resmi angkatan RMIK 22A5 terdiri 44 Mahasiswa dari berbagai daerah di Indonesia.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Menu</h3>
+                    <ul>
+                        <li><a href="index.html">Beranda</a></li>
+                        <li><a href="students.html">Daftar Mahasiswa</a></li>
+                        <li><a href="gallery.html">Galeri</a></li>
+                        <li><a href="about.html">Tentang</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Kontak</h3>
+                    <p><i class="fas fa-envelope"></i> @gmail.com</p>
+                    <p><i class="fas fa-phone"></i> +62 8580 3689 277</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 RMIK 22A5. Dibuat dengan ❤️ untuk mengenang masa-masa indah bersama. By @fna_naufal_</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.birds.min.js"></script>
+    
+    <script src="music-player.js"></script>
+
+    <script>
+    VANTA.BIRDS({
+        el: "body", // Targetkan langsung ke body
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200.00,
+        minWidth: 200.00,
+        scale: 1.00,
+        scaleMobile: 1.00,
+        backgroundColor: 0x111111,
+        color1: 0x764ba2,
+        color2: 0x667eea,
+        quantity: 3.00
+    })
+    </script>
+   
+</body>
+</html>

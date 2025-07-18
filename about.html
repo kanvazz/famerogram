@@ -1,0 +1,548 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tentang Kami - Famerogram</title>
+    <link rel="icon" type="image/svg+xml" href="Copilot_20250715_152404.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8fafc;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- Global Button Style --- */
+        .btn {
+            padding: 12px 24px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #5a6ed8;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Navigation Styles */
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 1rem 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-logo h2 {
+            color: white;
+            font-weight: 600;
+        }
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: background 0.3s ease;
+        }
+        .nav-link:hover,
+        .nav-link.active {
+            background: rgba(255,255,255,0.2);
+        }
+        .hamburger {
+            display: none;
+            cursor: pointer;
+        }
+        .hamburger i {
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 140px 0 60px; /* Adjusted padding for fixed nav */
+            color: white;
+            text-align: center;
+        }
+        .page-header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        .page-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Section Styles */
+        section {
+            padding: 80px 0;
+        }
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            color: #1f2937;
+        }
+
+        /* About Section */
+        .about-content {
+            background: white;
+        }
+        .about-text h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #1f2937;
+        }
+        .about-text p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            color: #4b5563;
+        }
+
+        /* Values Section */
+        .values-section {
+            background: #f8fafc;
+        }
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .value-card {
+            background: white;
+            padding: 2.5rem 2rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+        .value-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+        }
+        .value-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+        }
+        .value-icon i {
+            font-size: 2rem;
+            color: white;
+        }
+        .value-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #1f2937;
+        }
+        .value-card p {
+            color: #6b7280;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: #f8fafc;
+        }
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: flex-start;
+        }
+        .contact-info h3, .contact-form h3 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            color: #1f2937;
+        }
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .contact-item i {
+            font-size: 1.5rem;
+            color: #667eea;
+            margin-top: 0.25rem;
+        }
+        .contact-item h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .contact-item p, .contact-item a {
+            color: #6b7280;
+            text-decoration: none;
+        }
+        .contact-item a:hover {
+            color: #667eea;
+            text-decoration: underline;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.3s ease;
+        }
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        /* Team Section */
+        .team-section {
+            background: white;
+        }
+        .team-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            justify-items: center;
+        }
+        .team-member {
+            background: #f8fafc;
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 400px;
+            border: 1px solid #e5e7eb;
+        }
+        .member-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto 1.5rem;
+            border: 5px solid #667eea;
+        }
+        .member-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .team-member h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .team-member p {
+            color: #6b7280;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1f2937;
+            color: white;
+            padding: 60px 0 20px;
+        }
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .footer-section h3, .footer-section h4 {
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        .footer-section h3 {
+            font-size: 1.5rem;
+            color: #fbbf24;
+        }
+        .footer-section h4 {
+            font-size: 1.2rem;
+        }
+        .footer-section p, .footer-section ul li a {
+            color: #d1d5db;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+            line-height: 2;
+        }
+        .footer-section ul li a:hover {
+            color: #fbbf24;
+        }
+        .footer .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: #374151;
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            margin-right: 0.5rem;
+            transition: background 0.3s, transform 0.3s;
+        }
+        .footer .social-links a:hover {
+            background: #667eea;
+            transform: translateY(-3px);
+        }
+        .footer-bottom {
+            border-top: 1px solid #374151;
+            padding-top: 2rem;
+            text-align: center;
+            color: #9ca3af;
+        }
+        
+        /* --- RESPONSIVE STYLES --- */
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: absolute;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                gap: 0;
+                width: 100%;
+                text-align: center;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                transition: all 0.3s ease;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            }
+            .nav-menu.active {
+                left: 0;
+            }
+            .nav-item {
+                width: 100%;
+            }
+            .nav-link {
+                display: block;
+                padding: 1.5rem;
+                border-radius: 0;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
+            .hamburger {
+                display: block;
+            }
+
+            .page-header {
+                padding: 120px 20px 50px;
+            }
+            .page-header h1 {
+                font-size: 2.2rem;
+            }
+            .page-header p {
+                font-size: 1.1rem;
+            }
+
+            section {
+                padding: 60px 0;
+            }
+            .section-title {
+                font-size: 2rem;
+                margin-bottom: 2rem;
+            }
+            .about-text h2, .contact-info h3, .contact-form h3 {
+                font-size: 1.8rem;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .footer-content {
+                text-align: center;
+            }
+            .footer .social-links {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <div class="nav-logo">
+                <h2>Famerogram</h2>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link">Beranda</a></li>
+                <li class="nav-item"><a href="students.html" class="nav-link">Daftar Mahasiswa</a></li>
+                <li class="nav-item"><a href="gallery.html" class="nav-link">Galeri</a></li>
+                <li class="nav-item"><a href="about.html" class="nav-link active">Tentang</a></li>
+                <li class="nav-item"><a href="https://www.instagram.com/fna_naufal_/" class="nav-link" target="_blank">Admin</a></li>
+            </ul>
+            <div class="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <div class="container">
+            <h1><i class="fas fa-info-circle"></i> Tentang Angkatan Kami</h1>
+            <p>Mengenal lebih dekat cerita, nilai-nilai, dan orang di balik website angkatan Famerogram.</p>
+        </div>
+    </header>
+
+    <section class="about-content">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-text">
+                    <h2>Cerita Angkatan Kami</h2>
+                    <p>RMIK 22A5 terdiri dari <strong>44 Mahasiswa</strong> yang berasal dari berbagai daerah di Indonesia. Kami adalah generasi yang tumbuh dengan semangat keberagaman, persatuan, dan prestasi. Dari Jawa Tengah hingga Kalimantan Barat, kami berkumpul dengan satu tujuan: menuntut ilmu dan meraih prestasi terbaik.</p>
+                    <p>Selama masa sekolah, kami tidak hanya fokus pada prestasi akademik, tetapi juga mengembangkan karakter, kepemimpinan, dan jiwa sosial. Berbagai kegiatan menjadi wadah kami untuk berkembang menjadi pribadi yang utuh dan bermanfaat.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="values-section">
+        <div class="container">
+            <h2 class="section-title">Nilai-Nilai Kami</h2>
+            <div class="values-grid">
+                <div class="value-card"><div class="value-icon"><i class="fas fa-handshake"></i></div><h3>Kebersamaan</h3><p>Kami percaya bahwa kebersamaan adalah kunci kesuksesan. Saling mendukung dan membantu dalam setiap situasi.</p></div>
+                <div class="value-card"><div class="value-icon"><i class="fas fa-star"></i></div><h3>Prestasi</h3><p>Selalu berusaha memberikan yang terbaik dalam setiap bidang, baik akademik maupun non-akademik.</p></div>
+                <div class="value-card"><div class="value-icon"><i class="fas fa-globe"></i></div><h3>Keberagaman</h3><p>Menghargai perbedaan budaya, suku, dan latar belakang sebagai kekuatan yang mempersatukan.</p></div>
+                <div class="value-card"><div class="value-icon"><i class="fas fa-lightbulb"></i></div><h3>Inovasi</h3><p>Selalu mencari cara baru dan kreatif dalam menyelesaikan masalah dan mencapai tujuan.</p></div>
+                <div class="value-card"><div class="value-icon"><i class="fas fa-shield-alt"></i></div><h3>Integritas</h3><p>Menjunjung tinggi kejujuran, tanggung jawab, dan etika dalam setiap tindakan.</p></div>
+                <div class="value-card"><div class="value-icon"><i class="fas fa-hands-helping"></i></div><h3>Kepedulian</h3><p>Peduli terhadap sesama, lingkungan, dan masyarakat sekitar dengan tindakan nyata.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="team-section">
+        <div class="container">
+            <h2 class="section-title">Tim Pengembang Website</h2>
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="member-photo">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaWA6TWhO5NO0dODIIJG8rFUAYeaAYTk-JYQ&s" alt="Foto Pengembang">
+                    </div>
+                    <h3>Tim FNA</h3>
+                    <p><strong>Web Developer</strong></p>
+                    <p>Website ini dikembangkan secara kolaboratif oleh mahasiswa 22A5 sebagai wujud kenangan dan media informasi.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-section">
+        <div class="container">
+            <h2 class="section-title">Hubungi Kami</h2>
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h3>Informasi Kontak</h3>
+                    <div class="contact-item"><i class="fas fa-envelope"></i><div><h4>Email</h4><p><a href="mailto:shuwaranby@gmail.com">@gmail.com</a></p></div></div>
+                    <div class="contact-item"><i class="fas fa-phone"></i><div><h4>Telepon</h4><p><a href="tel:+6285803689277">+62 8580 3689 277</a></p></div></div>
+                    <div class="contact-item"><i class="fas fa-map-marker-alt"></i><div><h4>Alamat Universitas</h4><p><a href="https://maps.app.goo.gl/wnEVJCV2Vyf2pppN7" target="_blank" rel="noopener noreferrer">Jl. K.H Samanhudi No.93, Sondakan, Kec. Laweyan, Kota Surakarta, Jawa Tengah 57147</a></p></div></div>
+                </div>
+                <div class="contact-form">
+                    <h3>Kirim Pesan</h3>
+                    <form id="contactForm">
+                        <div class="form-group"><label for="name">Nama</label><input type="text" id="name" name="name" required></div>
+                        <div class="form-group"><label for="email">Email</label><input type="email" id="email" name="email" required></div>
+                        <div class="form-group"><label for="subject">Subjek</label><input type="text" id="subject" name="subject" required></div>
+                        <div class="form-group"><label for="message">Pesan</label><textarea id="message" name="message" rows="5" required></textarea></div>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Kirim Pesan</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section"><h3>Famerogram</h3><p>Website resmi angkatan RMIK 22A5 terdiri 44 Mahasiswa dari berbagai daerah di Indonesia.</p></div>
+                <div class="footer-section"><h4>Menu</h4><ul><li><a href="index.html">Beranda</a></li><li><a href="students.html">Daftar Siswa</a></li><li><a href="gallery.html">Galeri</a></li><li><a href="about.html">Tentang</a></li></ul></div>
+                <div class="footer-section"><h4>Kontak</h4><p><i class="fas fa-envelope"></i> @gmail.com</p><p><i class="fas fa-phone"></i> +62 8580 3689 277</p></div>
+                <div class="footer-section"><h4>Sosial Media</h4><div class="social-links"><a href="https://www.instagram.com/famerogram/" target="_blank"><i class="fab fa-instagram"></i></a><a href="https://web.facebook.com/" target="_blank"><i class="fab fa-facebook"></i></a><a href="https://x.com/" target="_blank"><i class="fab fa-twitter"></i></a><a href="https://youtube.com/" target="_blank"><i class="fab fa-youtube"></i></a></div></div>
+            </div>
+            <div class="footer-bottom"><p>&copy; 22025 RMIK 22A5. Dibuat dengan ❤️ untuk mengenang masa-masa indah bersama. By @fna_naufal_</p></div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Script untuk Hamburger Menu ---
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            hamburger.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+            });
+
+            // --- Script untuk Form Kontak ---
+            const contactForm = document.getElementById('contactForm');
+            if(contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const name = document.getElementById('name').value;
+                    if (!name || !document.getElementById('email').value || !document.getElementById('message').value) {
+                        alert('Mohon lengkapi semua field yang wajib diisi!');
+                        return;
+                    }
+                    alert(`Terima kasih, ${name}! Pesan Anda telah berhasil dikirim.`);
+                    this.reset();
+                });
+            }
+        });
+    </script>
+</body>
+</html>
